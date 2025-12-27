@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WebSentry AI – Results</title>
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#0f1117;color:#e6e6eb;margin:0}
+    .wrap{max-width:980px;margin:40px auto;padding:0 18px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}
+    .title{font-size:1.4rem;font-weight:700}
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;background:#7c7cff;color:#0f1117;text-decoration:none;font-weight:700}
+    .btn.secondary{background:#22263a;color:#e6e6eb;border:1px solid rgba(255,255,255,.08)}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    @media(min-width:900px){.grid{grid-template-columns:1.2fr .8fr}}
+    .card{background:#161922;border-radius:12px;padding:16px 18px;box-shadow:0 0 0 1px rgba(255,255,255,0.05)}
+    .muted{color:#a6abd6}
+    code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:8px}
+    .pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(124,124,255,.12);color:#cfd2ff}
+    .sev{font-weight:800;padding:3px 10px;border-radius:999px;font-size:12px;display:inline-block}
+    .sev-high{background:rgba(255,90,90,.18);color:#ffb2b2}
+    .sev-medium{background:rgba(255,200,70,.16);color:#ffe1a6}
+    .sev-low{background:rgba(160,200,255,.14);color:#cfe4ff}
+    .finding{padding:12px 14px;border-radius:10px;background:#0f1117;border:1px solid rgba(255,255,255,.06);margin-top:10px}
+    .kv{display:grid;grid-template-columns:140px 1fr;gap:6px 10px;margin-top:10px}
+    .kv div{padding:2px 0}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <div class="title">Scan Results</div>
+        <div class="muted">Target: <code>{{ report.url }}</code></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+        <a class="btn secondary" href="/">New scan</a>
+        <a class="btn" href="{{ html_report_url }}">Download HTML</a>
+        <a class="btn secondary" href="{{ json_report_url }}">Download JSON</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+          <h2 style="margin:0">Executive Summary</h2>
+          <span class="pill">{{ report.meta.mode }}</span>
+        </div>
+
+        {% if report.executive_summary %}
+          <p style="margin:10px 0 0 0;line-height:1.6">{{ report.executive_summary }}</p>
+        {% else %}
+          <p class="muted" style="margin:10px 0 0 0">Not generated.</p>
+        {% endif %}
+
+        <div class="muted" style="margin-top:12px;font-size:.85rem;line-height:1.5">
+          AI-assisted summaries (when enabled) are generated from detected findings and should be reviewed by a security engineer.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin:0">Scan Metadata</h2>
+        <div class="kv muted">
+          <div><b>Tool</b></div><div>{{ report.meta.tool }} <span class="muted">v{{ report.meta.version }}</span></div>
+          <div><b>Scanned at</b></div><div><code>{{ report.meta.scanned_at }}</code></div>
+          <div><b>Scope</b></div><div>{{ report.meta.scope }}</div>
+          <div><b>Mode</b></div><div>{{ report.meta.mode }}</div>
+          <div><b>Title</b></div><div><code>{{ report.title }}</code></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h2 style="margin:0">Findings ({{ report.findings|length }})</h2>
+
+      {% if report.findings|length == 0 %}
+        <p class="muted" style="margin-top:10px">No findings detected by the current rule-based checks.</p>
+      {% endif %}
+
+      {% for f in report.findings %}
+        <div class="finding">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            {% set sev = f.severity or 'Low' %}
+            {% if sev == 'High' %}
+              <span class="sev sev-high">High</span>
+            {% elif sev == 'Medium' %}
+              <span class="sev sev-medium">Medium</span>
+            {% else %}
+              <span class="sev sev-low">Low</span>
+            {% endif %}
+            <div style="font-weight:800">{{ f.title }}</div>
+          </div>
+          <div class="muted" style="margin-top:8px"><b>Evidence:</b> {{ f.evidence }}</div>
+          <div class="muted" style="margin-top:4px"><b>Mitigation:</b> {{ f.mitigation }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

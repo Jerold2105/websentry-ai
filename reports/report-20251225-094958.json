@@ -1,0 +1,43 @@
+{
+  "url": "http://127.0.0.1:8001/",
+  "title": "WebSentry UI",
+  "headers_sample": {
+    "content-length": "1768",
+    "content-type": "text/html; charset=utf-8",
+    "date": "Thu, 25 Dec 2025 09:49:57 GMT",
+    "server": "uvicorn"
+  },
+  "findings": [
+    {
+      "title": "Missing Content-Security-Policy header",
+      "severity": "Medium",
+      "evidence": "No Content-Security-Policy header present in response",
+      "mitigation": "Add a strict Content-Security-Policy header to reduce XSS risk"
+    },
+    {
+      "title": "Missing X-Frame-Options header",
+      "severity": "Low",
+      "evidence": "No X-Frame-Options header present in response",
+      "mitigation": "Add X-Frame-Options or frame-ancestors to prevent clickjacking"
+    },
+    {
+      "title": "Server version disclosure",
+      "severity": "Low",
+      "evidence": "Server header present: uvicorn",
+      "mitigation": "Disable or obfuscate server version headers"
+    }
+  ],
+  "meta": {
+    "tool": "WebSentry AI",
+    "version": "0.1.0",
+    "scanned_at": "2025-12-25T09:49:58.374264Z"
+  },
+  "summary": {
+    "total_findings": 3,
+    "severity_breakdown": {
+      "High": 0,
+      "Medium": 1,
+      "Low": 2
+    }
+  }
+}

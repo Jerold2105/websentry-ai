@@ -1,0 +1,34 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# System deps (Playwright needs some, safe to keep minimal)
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy project metadata first (better caching)
+COPY pyproject.toml README.md /app/
+
+# Install Python deps
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir \
+        fastapi \
+        uvicorn \
+        requests \
+        jinja2 \
+        python-multipart \
+        openai
+
+# Copy app source
+COPY src /app/src
+COPY templates /app/templates
+
+# Install the package itself
+RUN pip install --no-cache-dir -e .
+
+EXPOSE 8000
+
+# Explicit uvicorn entrypoint (this avoids Render issues)
+CMD ["uvicorn", "websentry.webapp:app", "--host", "0.0.0.0", "--port", "8000"]

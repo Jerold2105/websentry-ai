@@ -1,0 +1,43 @@
+{
+  "url": "https://ifreechat.com/",
+  "title": "Free Online Live Sex Chat Rooms",
+  "executive_summary": "A lightweight security review of https://ifreechat.com/ (Free Online Live Sex Chat Rooms) identified 2 issue(s): 0 High, 1 Medium, and 1 Low. Overall, the application presents a moderate risk security posture driven primarily by configuration and security header gaps. It is recommended to remediate Medium severity issues first, then address Low severity hardening gaps and re-test to validate remediation.",
+  "headers_sample": {
+    "Date": "Fri, 26 Dec 2025 08:17:20 GMT",
+    "Content-Type": "text/html; charset=UTF-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "Server": "cloudflare",
+    "Cache-Control": "private, max-age=14400",
+    "Report-To": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=zdQI1T2yZPTb5CnJmgH6dEP%2BHN%2F1SOpGWvyfvnezIq%2FGNFoeaTIMnMKlvx3wkCZFvSI1App7AYqO1%2BhisarjgXAaFXX8ByEYpRb4DHs%3D\"}]}",
+    "Age": "6329",
+    "cf-cache-status": "HIT",
+    "last-modified": "Fri, 26 Dec 2025 06:31:51 GMT",
+    "vary": "accept-encoding",
+    "Nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+    "Content-Encoding": "gzip",
+    "CF-RAY": "9b3f2429ecf46b6a-DFW",
+    "alt-svc": "h3=\":443\"; ma=86400"
+  },
+  "findings": [
+    {
+      "title": "Missing Content-Security-Policy header",
+      "severity": "Medium",
+      "evidence": "No Content-Security-Policy header present in response",
+      "mitigation": "Add a strict Content-Security-Policy header to reduce XSS risk"
+    },
+    {
+      "title": "Missing X-Frame-Options header",
+      "severity": "Low",
+      "evidence": "No X-Frame-Options header present in response",
+      "mitigation": "Add X-Frame-Options or frame-ancestors to prevent clickjacking"
+    }
+  ],
+  "meta": {
+    "tool": "WebSentry AI",
+    "version": "0.1.0",
+    "scanned_at": "2025-12-26T08:17:20.681558Z",
+    "mode": "Rule-based (LLM disabled)",
+    "scope": "Unauthenticated, read-only checks (MVP)"
+  }
+}

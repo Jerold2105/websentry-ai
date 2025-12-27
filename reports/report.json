@@ -1,0 +1,49 @@
+{
+  "url": "https://example.com",
+  "title": "Example Domain",
+  "headers_sample": {
+    "age": "10418",
+    "allow": "GET, HEAD",
+    "cf-cache-status": "HIT",
+    "cf-ray": "9b3659dd0d123728-MCI",
+    "content-encoding": "gzip",
+    "content-type": "text/html",
+    "date": "Thu, 25 Dec 2025 06:41:08 GMT",
+    "last-modified": "Sat, 20 Dec 2025 05:43:40 GMT",
+    "server": "cloudflare",
+    "vary": "Accept-Encoding"
+  },
+  "findings": [
+    {
+      "title": "Missing Content-Security-Policy header",
+      "severity": "Medium",
+      "evidence": "No Content-Security-Policy header present in response",
+      "mitigation": "Add a strict Content-Security-Policy header to reduce XSS risk"
+    },
+    {
+      "title": "Missing X-Frame-Options header",
+      "severity": "Low",
+      "evidence": "No X-Frame-Options header present in response",
+      "mitigation": "Add X-Frame-Options or frame-ancestors to prevent clickjacking"
+    },
+    {
+      "title": "Server version disclosure",
+      "severity": "Low",
+      "evidence": "Server header present: cloudflare",
+      "mitigation": "Disable or obfuscate server version headers"
+    }
+  ],
+  "meta": {
+    "tool": "WebSentry AI",
+    "version": "0.1.0",
+    "scanned_at": "2025-12-25T06:41:09.046888Z"
+  },
+  "summary": {
+    "total_findings": 3,
+    "severity_breakdown": {
+      "High": 0,
+      "Medium": 1,
+      "Low": 2
+    }
+  }
+}

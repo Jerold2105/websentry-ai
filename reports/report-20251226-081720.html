@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>WebSentry Report</title>
+  <style>
+    body{margin:0;font-family:system-ui,Segoe UI,Arial;background:#0b1020;color:#e7ecff}
+    .wrap{max-width:980px;margin:0 auto;padding:26px}
+    .card{background:#111b38;border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.35);margin-bottom:14px}
+    .muted{color:#b8c0e0}
+    .sev{font-weight:700;padding:3px 10px;border-radius:999px;display:inline-block;font-size:12px}
+    .sev-high{background:rgba(255,90,90,.15);color:#ff9a9a}
+    .sev-medium{background:rgba(255,200,70,.15);color:#ffd18a}
+    .sev-low{background:rgba(160,200,255,.12);color:#bcd8ff}
+    code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:8px}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>WebSentry Report</h1>
+
+    <div class="card">
+      <div class="muted">Target</div>
+      <h2 style="margin:6px 0 0 0">https://ifreechat.com/</h2>
+      <p class="muted" style="margin:6px 0 0 0">Page title: <code>Free Online Live Sex Chat Rooms</code></p>
+      <p class="muted" style="margin:6px 0 0 0">Scanned at: <code>2025-12-26T08:17:20.681558Z</code></p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Executive Summary</h2>
+      
+        <p style="margin:8px 0 0 0">A lightweight security review of https://ifreechat.com/ (Free Online Live Sex Chat Rooms) identified 2 issue(s): 0 High, 1 Medium, and 1 Low. Overall, the application presents a moderate risk security posture driven primarily by configuration and security header gaps. It is recommended to remediate Medium severity issues first, then address Low severity hardening gaps and re-test to validate remediation.</p>
+      
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Findings (2)</h2>
+
+      
+
+      <div class="grid">
+        
+          <div class="card" style="margin:0;background:#0f1730">
+            <div class="muted" style="display:flex;align-items:center;gap:8px">
+              
+              
+                <span class="sev sev-medium">Medium</span>
+              
+              <span>Missing Content-Security-Policy header</span>
+            </div>
+            <p class="muted" style="margin:10px 0 6px 0"><b>Evidence:</b> No Content-Security-Policy header present in response</p>
+            <p class="muted" style="margin:0"><b>Mitigation:</b> Add a strict Content-Security-Policy header to reduce XSS risk</p>
+          </div>
+        
+          <div class="card" style="margin:0;background:#0f1730">
+            <div class="muted" style="display:flex;align-items:center;gap:8px">
+              
+              
+                <span class="sev sev-low">Low</span>
+              
+              <span>Missing X-Frame-Options header</span>
+            </div>
+            <p class="muted" style="margin:10px 0 6px 0"><b>Evidence:</b> No X-Frame-Options header present in response</p>
+            <p class="muted" style="margin:0"><b>Mitigation:</b> Add X-Frame-Options or frame-ancestors to prevent clickjacking</p>
+          </div>
+        
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Response headers (sample)</h2>
+      
+        <ul class="muted">
+          
+            <li><code>Date</code>: Fri, 26 Dec 2025 08:17:20 GMT</li>
+          
+            <li><code>Content-Type</code>: text/html; charset=UTF-8</li>
+          
+            <li><code>Transfer-Encoding</code>: chunked</li>
+          
+            <li><code>Connection</code>: keep-alive</li>
+          
+            <li><code>Server</code>: cloudflare</li>
+          
+            <li><code>Cache-Control</code>: private, max-age=14400</li>
+          
+            <li><code>Report-To</code>: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=zdQI1T2yZPTb5CnJmgH6dEP%2BHN%2F1SOpGWvyfvnezIq%2FGNFoeaTIMnMKlvx3wkCZFvSI1App7AYqO1%2BhisarjgXAaFXX8ByEYpRb4DHs%3D"}]}</li>
+          
+            <li><code>Age</code>: 6329</li>
+          
+            <li><code>cf-cache-status</code>: HIT</li>
+          
+            <li><code>last-modified</code>: Fri, 26 Dec 2025 06:31:51 GMT</li>
+          
+            <li><code>vary</code>: accept-encoding</li>
+          
+            <li><code>Nel</code>: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}</li>
+          
+            <li><code>Content-Encoding</code>: gzip</li>
+          
+            <li><code>CF-RAY</code>: 9b3f2429ecf46b6a-DFW</li>
+          
+            <li><code>alt-svc</code>: h3=":443"; ma=86400</li>
+          
+        </ul>
+      
+    </div>
+  </div>
+</body>
+</html>

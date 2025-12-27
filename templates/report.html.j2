@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>WebSentry Report</title>
+  <style>
+    body{margin:0;font-family:system-ui,Segoe UI,Arial;background:#0b1020;color:#e7ecff}
+    .wrap{max-width:980px;margin:0 auto;padding:26px}
+    .card{background:#111b38;border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.35);margin-bottom:14px}
+    .muted{color:#b8c0e0}
+    .sev{font-weight:700;padding:3px 10px;border-radius:999px;display:inline-block;font-size:12px}
+    .sev-high{background:rgba(255,90,90,.15);color:#ff9a9a}
+    .sev-medium{background:rgba(255,200,70,.15);color:#ffd18a}
+    .sev-low{background:rgba(160,200,255,.12);color:#bcd8ff}
+    code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:8px}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>WebSentry Report</h1>
+
+    <div class="card">
+      <div class="muted">Target</div>
+      <h2 style="margin:6px 0 0 0">{{ url }}</h2>
+      <p class="muted" style="margin:6px 0 0 0">Page title: <code>{{ title }}</code></p>
+      <p class="muted" style="margin:6px 0 0 0">Scanned at: <code>{{ meta.scanned_at }}</code></p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Executive Summary</h2>
+      {% if executive_summary %}
+        <p style="margin:8px 0 0 0">{{ executive_summary }}</p>
+      {% else %}
+        <p class="muted" style="margin:8px 0 0 0">Not generated (LLM disabled or unavailable).</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Findings ({{ findings|length }})</h2>
+
+      {% if findings|length == 0 %}
+        <p class="muted">No findings detected by rule-based checks.</p>
+      {% endif %}
+
+      <div class="grid">
+        {% for f in findings %}
+          <div class="card" style="margin:0;background:#0f1730">
+            <div class="muted" style="display:flex;align-items:center;gap:8px">
+              {% set sev = (f.severity or 'Low') %}
+              {% if sev == 'High' %}
+                <span class="sev sev-high">High</span>
+              {% elif sev == 'Medium' %}
+                <span class="sev sev-medium">Medium</span>
+              {% else %}
+                <span class="sev sev-low">Low</span>
+              {% endif %}
+              <span>{{ f.title }}</span>
+            </div>
+            <p class="muted" style="margin:10px 0 6px 0"><b>Evidence:</b> {{ f.evidence }}</p>
+            <p class="muted" style="margin:0"><b>Mitigation:</b> {{ f.mitigation }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Response headers (sample)</h2>
+      {% if headers_sample %}
+        <ul class="muted">
+          {% for k, v in headers_sample.items() %}
+            <li><code>{{ k }}</code>: {{ v }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">No headers captured.</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
